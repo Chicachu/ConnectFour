@@ -215,7 +215,7 @@ function ConnectFourOnePlayer(props) {
 	return(
 		<div>
 			<header className='playerDefinition'>{getPlayer1SpanInfo()} {getComputerSpanInfo()}</header>
-			<ConnectFour makeMove={makeMove} computer="true" />
+			<ConnectFour makeMove={makeMove} computer="true" p1color={p1color} />
 		</div>
 	);
 }

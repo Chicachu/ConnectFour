@@ -16,6 +16,10 @@ import {Link} from 'react-router-dom';
 function ConnectFour(props)  {
 	const [player1] = useState(1);
 	const [player2] = useState(2);
+	const [p1color] = useState(props.p1color);
+	const [p2color] = useState(() => {
+		return p1color === "blue" ? "red" : "blue";
+	});
 	const [currentPlayer, setCurrentPlayer] = useState(player1);
 	const [board, setBoard] = useState(() => {
 		let board = [];
@@ -32,7 +36,7 @@ function ConnectFour(props)  {
 	const [gameOver, setGameOver] = useState(false);
 	const [message, setMessage] = useState(""); 
 	const makeMove = props.makeMove;
-	const [computer] = props.computer;
+	const computer = props.computer;
 	
 	useEffect(() => {
 		if (message === "") {
@@ -42,9 +46,11 @@ function ConnectFour(props)  {
 	
 	useEffect(() => {
 		// Automatically take a turn if it's the computers turn.
-		if (computer && currentPlayer === player2) {
+		if (computer === "true" && currentPlayer === player2) {
 			takeTurn(null, board, currentPlayer);
 		}
+		
+		setMessage(getPlayerTurnMessage());
 	}, [currentPlayer]);
 	
 	// sets the message above the gameboard to show whose turn it is. 
@@ -86,7 +92,7 @@ function ConnectFour(props)  {
 				case null: 
 					setBoard(board);
 					setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
-					setMessage(getPlayerTurnMessage());
+					break;
 			}
 		}
 	}
@@ -95,7 +101,7 @@ function ConnectFour(props)  {
 	// checks for a diagonal right win, checks for a diagonal left win, or a draw if the entire board has been filled without a winner. 
 	const checkBoard = (board) => {
 		return checkVertical(board) || checkHorizontal(board) || 
-			checkDiagonalRight(board) || checkDiagonalLeft(board) || checkDraw(board);
+			checkDiagonalRight(board) || checkDiagonalLeft(board) || checkForTie(board);
 	}
 	
 	// check for 4 in a row vertically, starting from the bottom row.
@@ -162,7 +168,7 @@ function ConnectFour(props)  {
 	}
 	
 	// A draw is when the entire table is full, but there are no winners (which are checked for first). If any spot is null, it will not be a draw.
-	const checkDraw = (board) => {
+	const checkForTie = (board) => {
 		for (let r = 0; r < 6; r++) {
 			for (let c = 0; c < 7; c++) {
 				if (board[r][c] === null) {
@@ -192,9 +198,9 @@ function ConnectFour(props)  {
 		let color = 'white';
 		
 		if (value === 1) {
-			color = 'blueCell';
+			color = p1color + 'Cell';
 		} else if (value === 2) {
-			color = 'redCell';
+			color = p2color + 'Cell';
 		}
 		
 		return(

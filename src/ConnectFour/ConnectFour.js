@@ -50,16 +50,15 @@ function ConnectFour(props)  {
 			takeTurn(null, board, currentPlayer);
 		}
 		
-		setMessage(getPlayerTurnMessage());
 	}, [currentPlayer]);
 	
 	// sets the message above the gameboard to show whose turn it is. 
-	const getPlayerTurnMessage = () => {
+	const getPlayerTurnMessage = (cplayer) => {
 		let msg = '';
-		switch(currentPlayer) {
-			case 1: msg = "It is now the blue player's turn!";
+		switch(cplayer) {
+			case 1: msg = "It is now the " + p1color + " player's turn!";
 				break;
-			case 2: msg = "It is now the red player's turn!";
+			case 2: msg = "It is now the " + p2color + " player's turn!";
 		}
 		return msg;
 	}
@@ -74,12 +73,12 @@ function ConnectFour(props)  {
 			let result = checkBoard(tboard);
 			let msg = '';
 			switch(result) {
-				case player1: msg = "Player One (blue) wins the game!";
+				case player1: msg = "Player 1 (" + p1color + ") wins the game!";
 					setBoard(board);
 					setMessage(msg);
 					setGameOver(true);
 					break;
-				case player2: msg = "Player Two (red) wins the game!";
+				case player2: msg = "Player 2 " + p2color + " wins the game!";
 					setBoard(board);
 					setMessage(msg);
 					setGameOver(true);
@@ -91,7 +90,9 @@ function ConnectFour(props)  {
 					break;
 				case null: 
 					setBoard(board);
-					setCurrentPlayer(currentPlayer === player1 ? player2 : player1);
+					let cplayer = currentPlayer === player1 ? player2 : player1;
+					setCurrentPlayer(cplayer);
+					setMessage(getPlayerTurnMessage(cplayer));
 					break;
 			}
 		}
@@ -153,7 +154,7 @@ function ConnectFour(props)  {
 	
 	// check for 4 in a row in a right diagonal, starting from bottom right. 
 	const checkDiagonalRight = (board) => {
-		for (let r = 5; r >= 0; r--) {
+		for (let r = 5; r >= 3; r--) {
 			for (let c = 0; c < 4; c++) {
 				if (board[r][c] && 
 					board[r][c] === board[r - 1][c + 1] &&
@@ -197,9 +198,9 @@ function ConnectFour(props)  {
 	const Cell = ({value, colIndex, takeTurn}) => {
 		let color = 'white';
 		
-		if (value === 1) {
+		if (value == 1) {
 			color = p1color + 'Cell';
-		} else if (value === 2) {
+		} else if (value == 2) {
 			color = p2color + 'Cell';
 		}
 		

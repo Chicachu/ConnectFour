@@ -96,8 +96,7 @@ function ConnectFourOnePlayer(props) {
 					board[r - 3][c] === null) {
 					let cells = [new Cell(r, c, board[r][c]), new Cell(r - 1, c, board[r - 1][c]), 
 						new Cell(r - 2, c, board[r - 2][c]), new Cell(r - 3, c, board[r - 3][c])];
-					let counts = [board[r][c], 3];
-					fourCellSpans.push(new FourCell(cells, counts, 4));
+					fourCellSpans.push(new FourCell(cells, 4));
 				}
 			}
 		}
@@ -161,7 +160,7 @@ function ConnectFourOnePlayer(props) {
 					let cellObjects = cells.map( cell => {
 						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
 					});
-					fourCellSpans.push(new FourCell(cellObjects, counts, 10));
+					fourCellSpans.push(new FourCell(cellObjects, 10));
 				}
 			}
 		}
@@ -174,7 +173,7 @@ function ConnectFourOnePlayer(props) {
 					let cellObjects = cells.map( cell => {
 						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
 					});
-					fourCellSpans.push(new FourCell(cellObjects, counts, 4));
+					fourCellSpans.push(new FourCell(cellObjects, 4));
 				}
 			}
 			
@@ -185,7 +184,7 @@ function ConnectFourOnePlayer(props) {
 					let cellObjects = cells.map( cell => {
 						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
 					});
-					fourCellSpans.push(new FourCell(cellObjects, counts, 2));
+					fourCellSpans.push(new FourCell(cellObjects, 2));
 				}
 			}
 		}

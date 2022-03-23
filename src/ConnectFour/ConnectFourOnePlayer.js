@@ -212,12 +212,12 @@ function ConnectFourOnePlayer(props) {
 	
 	const getPlayer1SpanInfo = () => {
 		let className = p1color + "Text";
-		return <span className={className}>You are player 1, the {p1color} player.</span>;
+		return <span className={className} id="player1Header">You are player 1, the {p1color} player.</span>;
 	}
 	
 	const getComputerSpanInfo = () => {
 		let className = computerColor + "Text";
-		return <span className={className}>The computer is player 2, the {computerColor} player.</span>;
+		return <span className={className} id="computerHeader">The computer is player 2, the {computerColor} player.</span>;
 	}
 	
 	return(

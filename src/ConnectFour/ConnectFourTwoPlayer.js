@@ -24,7 +24,7 @@ function ConnectFourTwoPlayer(props)  {
 	
 	return (
 		<div>
-			<header className='playerDefinition'><span className='blueText'>Player 1 is the blue player.</span><span className='redText'>Player 2 is the red player.</span></header>
+			<header className='playerDefinition'><span className='blueText' id="bluePlayerLabel">Player 1 is the blue player.</span><span className='redText'>Player 2 is the red player.</span></header>
 			<ConnectFour makeMove={makeMove} computer="false" p1color="blue" />
 		</div>
 	);

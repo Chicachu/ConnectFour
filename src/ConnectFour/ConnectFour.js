@@ -97,7 +97,7 @@ function ConnectFour(props)  {
 						break;
 				}
 			} else {
-				setMessage("Column is full, please choose a different column.")
+				setMessage("Column is full, please choose a different column." + " " + getPlayerTurnMessage(currentPlayer));
 			}
 		}
 	}
@@ -191,10 +191,11 @@ function ConnectFour(props)  {
 	// Individual rows within the game board, which defines each cell for the row
 	// row - the row number
 	// makeMove - a reference to the makeMove function
-	const Row = ({row, takeTurn}) => {
+	const Row = ({row, takeTurn, rowNum}) => {
+		let rowNumString = "row-" + rowNum;
 		return(
 			<tr>                                                                                   
-				{row.map((cell, i) => <Cell key={i} value={cell} colIndex={i} takeTurn={takeTurn} />)}
+				{row.map((cell, i) => <Cell key={i} value={cell} rowNumString={rowNumString} colIndex={i} takeTurn={takeTurn} />)}
 			</tr>
 		)
 	};
@@ -203,7 +204,7 @@ function ConnectFour(props)  {
 	// value - the player number
 	// colIndex - the index of the column
 	// makeMove - a reference to the makeMove function
-	const Cell = ({value, colIndex, takeTurn}) => {
+	const Cell = ({value, colIndex, takeTurn, rowNumString}) => {
 		let color = 'white';
 		
 		if (value == 1) {
@@ -212,15 +213,16 @@ function ConnectFour(props)  {
 			color = p2color + 'Cell';
 		}
 		
+		let colId = rowNumString + "-col-" + colIndex;
+		
 		return(
 			<td>
-				<div className='cell' onClick={ () => takeTurn(colIndex, board, currentPlayer)}>
+				<div className='cell' id={colId} onClick={ () => takeTurn(colIndex, board, currentPlayer)}>
 					<div className={color} />
 				</div>
 			</td>
 		);
 	};
-
 	
 	return (
 		<div className="board">
@@ -228,10 +230,10 @@ function ConnectFour(props)  {
 			<table>
 				<thead></thead>
 				<tbody>
-					{board.map((row, i) => (<Row key={i} row={row} takeTurn={takeTurn} />))}
+					{board.map((row, i) => (<Row key={i} row={row} rowNum={i} takeTurn={takeTurn} />))}
 				</tbody>
 			</table>
-			<Link to='/'><button>Return to Player Selection</button></Link>
+			<Link to='/' id="returnToPlayerSelection"><button>Return to Player Selection</button></Link>
 		</div>
 	);
 }

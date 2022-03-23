@@ -1,11 +1,12 @@
 
 table {
 	border-collapse: collapse;
-	border-style: none;
+	border: 10px solid #282c34;
+	padding: 10px;
 }
 
 td {
-	padding: none;
+	padding: 0px;
 }
 
 .board {

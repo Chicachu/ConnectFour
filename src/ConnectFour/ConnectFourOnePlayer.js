@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import FourCell from './FourCell.js';
 import Cell from './Cell.js';
 import {useParams} from 'react-router-dom';
+import {WEIGHTS} from './FourCell';
 
 /* 
 	A game of Connect Four where one player is a human and the other is a computer.
@@ -151,40 +152,48 @@ function ConnectFourOnePlayer(props) {
 			}
 		});
 		
+		let player1 = 1;
+		let player2 = 2;
+		let count = 0;
+		let cell = 1;
+		let row = 0;
+		let col = 1;
 		// case where computer has 3 in a row and 1 null space. 
-		if (counts[null] !== undefined && counts[2] !== undefined) {
-			if (counts[null][0] === 1 && counts[2][0] === 3) {
+		if (counts[null] !== undefined && counts[player2] !== undefined) {
+			if (counts[null][count] === 1 && counts[player2][count] === 3) {
 				// It's only an important span if the next piece can be placed at the null spot 
 				// i.e. as long as the column is filled up to the null piece. 
-				if (isColumnFilledUpToRow(board, counts[null][1][0][0])) {
+				if (isColumnFilledUpToRow(board, counts[null][cell][0][row])) {
 					let cellObjects = cells.map( cell => {
-						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
+						return new Cell(cell[row], cell[col], board[cell[row]][cell[col]]);
 					});
-					fourCellSpans.push(new FourCell(cellObjects, 10));
+					fourCellSpans.push(new FourCell(cellObjects, WEIGHTS.high));
 				}
 			}
 		}
 		
 		// defensive cases: 
-		if (counts[null] !== undefined && counts[1] !== undefined) {
+		if (counts[null] !== undefined && counts[player1] !== undefined) {
 			// Case where player has 3 within a 4 cell span and will win the very next turn. 
-			if (counts[null][0] === 1 && counts[1][0] === 3) {
-				if (isColumnFilledUpToRow(board, counts[null][1][0][0])) {
+			if (counts[null][count] === 1 && counts[player1][count] === 3) {
+				if (isColumnFilledUpToRow(board, counts[null][cell][0][row])) {
 					let cellObjects = cells.map( cell => {
-						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
+						return new Cell(cell[row], cell[col], board[cell[row]][cell[col]]);
 					});
-					fourCellSpans.push(new FourCell(cellObjects, 4));
+					fourCellSpans.push(new FourCell(cellObjects, WEIGHTS.medium));
 				}
 			}
 			
 			// Case where player has 2 within a span of 4, and if the player doesn't block
 			// early, the player could win. 
-			if (counts[null][0] >= 1 && counts[1][0] === 2) {
-				if (isColumnFilledUpToRow(board, counts[null][1][0][0])) {
-					let cellObjects = cells.map( cell => {
-						return new Cell(cell[0], cell[1], board[cell[0]][cell[1]]);
-					});
-					fourCellSpans.push(new FourCell(cellObjects, 2));
+			if (counts[null][count] >= 1 && counts[player1][count] === 2) {
+				for (let i = 0; i < counts[null][count]; i++) {
+					if (isColumnFilledUpToRow(board, counts[null][cell][i][row])) {
+						let cellObjects = cells.map( cell => {
+							return new Cell(cell[row], cell[col], board[cell[row]][cell[col]]);
+						});
+						fourCellSpans.push(new FourCell(cellObjects, WEIGHTS.low));
+					}
 				}
 			}
 		}

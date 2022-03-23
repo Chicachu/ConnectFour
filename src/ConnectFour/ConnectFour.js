@@ -67,33 +67,37 @@ function ConnectFour(props)  {
 		if (gameOver) {
 			setMessage("Game Over! Go back to the home page to create a new game.");
 		} else {
-			let tboard = makeMove(c, board, currentPlayer);
-			
-			// check the state of the board to see if someone has won. 
-			let result = checkBoard(tboard);
-			let msg = '';
-			switch(result) {
-				case player1: msg = "Player 1 (" + p1color + ") wins the game!";
-					setBoard(board);
-					setMessage(msg);
-					setGameOver(true);
-					break;
-				case player2: msg = "Player 2 " + p2color + " wins the game!";
-					setBoard(board);
-					setMessage(msg);
-					setGameOver(true);
-					break;
-				case 'draw': msg = "The game is a draw! Neither player wins. (Or both players win!)";
-					setBoard(board);
-					setMessage(msg);
-					setGameOver(true);
-					break;
-				case null: 
-					setBoard(board);
-					let cplayer = currentPlayer === player1 ? player2 : player1;
-					setCurrentPlayer(cplayer);
-					setMessage(getPlayerTurnMessage(cplayer));
-					break;
+			if (columnIsNotFull(c)) {
+				let tboard = makeMove(c, board, currentPlayer);
+				
+				// check the state of the board to see if someone has won. 
+				let result = checkBoard(tboard);
+				let msg = '';
+				switch(result) {
+					case player1: msg = "Player 1 (" + p1color + ") wins the game!";
+						setBoard(board);
+						setMessage(msg);
+						setGameOver(true);
+						break;
+					case player2: msg = "Player 2 " + p2color + " wins the game!";
+						setBoard(board);
+						setMessage(msg);
+						setGameOver(true);
+						break;
+					case 'draw': msg = "The game is a draw! Neither player wins. (Or both players win!)";
+						setBoard(board);
+						setMessage(msg);
+						setGameOver(true);
+						break;
+					case null: 
+						setBoard(board);
+						let cplayer = currentPlayer === player1 ? player2 : player1;
+						setCurrentPlayer(cplayer);
+						setMessage(getPlayerTurnMessage(cplayer));
+						break;
+				}
+			} else {
+				setMessage("Column is full, please choose a different column.")
 			}
 		}
 	}
@@ -178,6 +182,10 @@ function ConnectFour(props)  {
 			}
 		}
 		return 'draw';
+	}
+	
+	const columnIsNotFull = (c) => {
+		return c === null || board[0][c] === null;
 	}
 	
 	// Individual rows within the game board, which defines each cell for the row

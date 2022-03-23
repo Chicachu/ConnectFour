@@ -5,6 +5,12 @@ import Cell from "./Cell.js";
 	This is used to determine how important it is for the computer player
 	to make a move to block the player from winning, or to win itself. 
 */
+export const WEIGHTS = {
+	low : 2,
+	medium : 4, 
+	high : 10
+}
+
 export default class FourCell {
 	constructor(cells, weight) {
 		this.cells = cells;
